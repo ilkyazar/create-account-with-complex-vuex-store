@@ -1,6 +1,6 @@
 import { getField, updateField } from "vuex-map-fields";
 
-import { AddressModel } from "../../../models/AddressModel";
+import { IdentityDocumentModel } from "../../../models/IdentityDocumentModel";
 
 const mutations = {
   updateField,
@@ -11,7 +11,7 @@ const getters = {
 };
 
 const state = () => ({
-  rows: [new AddressModel()],
+  rows: [new IdentityDocumentModel()],
 });
 
 export default {

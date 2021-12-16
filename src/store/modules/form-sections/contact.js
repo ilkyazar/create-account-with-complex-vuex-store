@@ -1,12 +1,12 @@
 import { getField, updateField } from 'vuex-map-fields';
 
 import { ADD_ROW } from '../../mutation-types';
-import { Contact } from '../../../models/ContactModel';
+import { ContactModel } from '../../../models/ContactModel';
 
 const mutations = {
   updateField,
   [ADD_ROW](state) {
-    state.rows.push(new Contact());
+    state.rows.push(new ContactModel());
   },
 };
 
@@ -15,7 +15,7 @@ const getters = {
 };
 
 const state = () => ({
-  rows: [new Contact()],
+  rows: [new ContactModel()],
 });
 
 export default {
