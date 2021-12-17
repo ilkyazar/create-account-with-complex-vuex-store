@@ -1,24 +1,27 @@
 <template>
   <div>
     <h1>Contact Info</h1>
+    <p v-if="success" class="success">SUCCESS!</p>
     <div class="form-sections">
-      <section class="form-section">
+      <FormSection>
         <div
           v-for="(contact, index) in contacts"
           :key="index"
           class="form-repeatable"
         >
-          <div class="form-element">
-            <label for="email" class="form-label"> E-Mail: </label>
-            <input id="email" v-model="contact.email" type="email" />
-          </div>
-          <div class="form-element">
-            <label for="phone" class="form-label"> Phone: </label>
-            <input id="phone" v-model="contact.phone" />
-          </div>
+          <FormElement
+            elementId="email"
+            labelName="E-Mail"
+            v-model="contact.email"
+          />
+          <FormElement
+            elementId="phone"
+            labelName="Phone"
+            v-model="contact.phone"
+          />
         </div>
         <button class="form-button" @click="addContact">Add contact</button>
-      </section>
+      </FormSection>
     </div>
 
     <button class="form-button" @click="submit">Submit</button>
@@ -26,24 +29,29 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-import { SUBMIT } from '../store/action-types';
-import { ADD_ROW } from '../store/mutation-types';
-import store from '../store';
+import { createNamespacedHelpers } from "vuex";
+import { SUBMIT } from "../store/action-types";
+import { ADD_ROW } from "../store/mutation-types";
+import store from "../store";
 import {
   contactInfo,
   mapContactMultiRowFields,
-} from '../store/modules/contact-info';
+} from "../store/modules/contact-info";
+import FormSection from "@/components/FormSection";
+import FormElement from "@/components/FormElement";
 
 if (!store.state.contactInfo) store.registerModule(`contactInfo`, contactInfo);
 
 const { mapActions, mapState } = createNamespacedHelpers(`contactInfo`);
-const {
-  mapMutations: mapContactMutations,
-} = createNamespacedHelpers(`contactInfo/contact`);
+const { mapMutations: mapContactMutations } =
+  createNamespacedHelpers(`contactInfo/contact`);
 
 export default {
   name: `ContactInfoPage`,
+  components: {
+    FormSection,
+    FormElement,
+  },
   computed: {
     ...mapState([`error`, `success`]),
     ...mapContactMultiRowFields({ contacts: `rows` }),

@@ -1,18 +1,20 @@
 <template>
   <div>
     <h1>Personal Info</h1>
-
+    <p v-if="success" class="success">SUCCESS!</p>
     <div class="form-sections">
-      <section class="form-section">
-        <div class="form-element">
-          <label for="firstName" class="form-label"> First name: </label>
-          <input id="firstName" v-model="firstName" />
-        </div>
-        <div class="form-element">
-          <label for="lastName" class="form-label"> Last name: </label>
-          <input id="lastName" v-model="lastName" />
-        </div>
-      </section>
+      <FormSection>
+        <FormElement
+          elementId="firstName"
+          labelName="First name"
+          v-model="firstName"
+        />
+        <FormElement
+          elementId="lastName"
+          labelName="Last name"
+          v-model="lastName"
+        />
+      </FormSection>
     </div>
 
     <button class="form-button" @click="submit">Submit</button>
@@ -21,9 +23,11 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-import { SUBMIT } from "../store/action-types";
-import store from "../store";
-import { personalInfo, mapNameFields } from "../store/modules/personal-info";
+import { SUBMIT } from "@/store/action-types";
+import store from "@/store";
+import { personalInfo, mapNameFields } from "@/store/modules/personal-info";
+import FormSection from "@/components/FormSection";
+import FormElement from "@/components/FormElement";
 
 // Only load module when needed. It can be already registered if webpacks are hot reloading.
 if (!store.state.personalInfo)
@@ -33,6 +37,10 @@ const { mapActions: mapPersonalInfoActions, mapState: mapPersonalInfoState } =
 
 export default {
   name: `PersonalInfoPage`,
+  components: {
+    FormSection,
+    FormElement,
+  },
   computed: {
     ...mapPersonalInfoState([`error`, `success`]),
     ...mapNameFields([`rows[0].firstName`, `rows[0].lastName`]),
